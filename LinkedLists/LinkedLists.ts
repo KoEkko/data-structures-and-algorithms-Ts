@@ -1,59 +1,149 @@
-class ListNode <T> {
-  value: T 
-  next: ListNode<T> | null = null
-  constructor(value:T) {
-    this.value = value
+class Node<T> {
+  value: T;
+  next: Node<T> | null = null;
+  constructor(value: T) {
+    this.value = value;
   }
 }
 
-class LinkedLists<T> {
-  private head: ListNode<T> | null = null
-  private size: number = 0
-  
-  // append 链表尾部追加元素
-  append(value:T) {
-    const newVNode = new ListNode<T>(value)
-    
-    if(!this.head) {
-      this.head = newVNode
-    } else {
-      // 找到链表的最后一个元素
-      let current = this.head
-      while(current.next) {
-        current = current.next
-      }
-      current.next = newVNode
+class LinkedList<T> {
+  private size = 0;
+  private head: Node<T> | null = null;
+
+  // 私有方法
+  getNode(position: number): Node<T> | null {
+    let index = 0;
+    let current = this.head;
+    while (index++ < position) {
+      current = current?.next ?? null;
     }
-    this.size++
+    return current;
   }
 
-  // traverse遍历
+  // 1.append在链表尾部增加元素
+  append(value: T): void {
+    const newNode = new Node<T>(value);
+
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+    this.size++;
+  }
+
+  // 2.traverse遍历链表
   traverse() {
-    let current = this.head
-    const values: T[] = []
-    while(current) {
-      values.push(current.value)
-      current = current.next
+    const values: T[] = [];
+    let current = this.head;
+    while (current) {
+      values.push(current.value);
+      current = current.next;
     }
     console.log(values.join("-> "));
   }
 
-  // insert 插入
-  insert(value:T,position:number):boolean {
-    // 1.越界的判断
-    if(position < 0 || position > this.size ) return false
-    
+  // 3.insert插入
+  insert(value: T, position: number): boolean {
+    if (position < 0 || position > this.size) return false;
+    const newNode = new Node<T>(value);
+    if (position === 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+    } else {
+      const prevNode = this.getNode(position - 1);
+      newNode.next = prevNode!.next;
+      prevNode!.next = newNode;
+    }
+    this.size++;
+    return true;
+  }
+  // 4.removeAt
+  removeAt(position: number): boolean {
+    if (position < 0 || position >= this.size) return false;
+    if (position === 0) {
+      this.head = this.head!.next;
+    } else {
+      const prevNode = this.getNode(position - 1);
+      prevNode!.next = prevNode!.next!.next;
+    }
+    this.size--;
+    return true;
+  }
 
-    
-    return true
+  // 5.get
+  get(position: number): T | null {
+    if (position < 0 || position >= this.size) return null;
+    const current = this.getNode(position);
+    return current!.value;
+  }
+  // 6.indexOf
+  indexOf(value: T): number {
+    let current = this.head;
+    let index = 0;
+    while (current) {
+      if (current.value === value) {
+        return index;
+      }
+      index++;
+      current = current.next;
+    }
+    return -1;
+  }
+  // 7.remove
+  remove(value: T): boolean {
+    const index = this.indexOf(value);
+    if (index === 0) {
+      this.head = this.head?.next ?? null;
+    } else if (index > 0) {
+      const prevNode = this.getNode(index - 1);
+      prevNode!.next = prevNode!.next!.next;
+      return true;
+    }
+    return false;
+  }
+  // 8.update
+  update(value: T, position: number): boolean {
+    if (position < 0 || position >= this.size) return false;
+    const currentNode = this.getNode(position);
+    currentNode!.value = value;
+    return true;
   }
 }
 
-const linkedlist = new LinkedLists<string>()
-linkedlist.append("aaa")
-linkedlist.append("bbb")
-linkedlist.append("ddd")
-linkedlist.append("ccc")
+const linkedlist = new LinkedList<string>();
 
-linkedlist.traverse()
-export {}
+// test append
+linkedlist.append("aaa");
+linkedlist.append("bbb");
+linkedlist.append("ccc");
+linkedlist.traverse();
+
+// test insert
+linkedlist.insert("ddd", 0);
+linkedlist.insert("eee", 2);
+linkedlist.insert("fff", 3);
+linkedlist.traverse();
+
+// test removeAt
+linkedlist.removeAt(0);
+linkedlist.removeAt(2);
+
+linkedlist.traverse();
+
+// test get
+console.log(linkedlist.get(0));
+
+// test remove
+linkedlist.remove("aaa");
+linkedlist.traverse();
+
+// test update
+linkedlist.update("abc", 0);
+linkedlist.traverse();
+
+export {};

@@ -1,4 +1,11 @@
-import { ListNode } from "./IListNode";
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
 function reverseList(head: ListNode | null): ListNode | null {
   if (head === null || head.next === null) return head;
   let newHead: ListNode | null = null;
@@ -10,7 +17,7 @@ function reverseList(head: ListNode | null): ListNode | null {
    * 4.head指向current
    */
   while (head) {
-    let current:ListNode | null = head.next;
+    let current: ListNode | null = head.next;
     head.next = newHead;
     newHead = head;
     head = current;
@@ -18,4 +25,4 @@ function reverseList(head: ListNode | null): ListNode | null {
   return newHead;
 }
 
-// 
+export {}

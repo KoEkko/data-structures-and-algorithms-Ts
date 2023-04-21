@@ -1,4 +1,11 @@
-import { ListNode } from "./IListNode";
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
 function reverseList(head: ListNode | null): ListNode | null {
   // 结束递归的条件
   if (head === null || head.next === null) return head; // return head 可以拿到最后一个节点
@@ -12,4 +19,4 @@ function reverseList(head: ListNode | null): ListNode | null {
   return newHead;
 }
 
-//
+export {}

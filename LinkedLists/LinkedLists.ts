@@ -1,4 +1,6 @@
-class Node<T> {
+import { ILinkedLists } from "./ILinkedLists";
+
+export class Node<T> {
   value: T;
   next: Node<T> | null = null;
   constructor(value: T) {
@@ -6,7 +8,7 @@ class Node<T> {
   }
 }
 
-class LinkedList<T> {
+class LinkedList<T> implements ILinkedLists<T>{
   private size = 0;
   private head: Node<T> | null = null;
 
@@ -18,6 +20,9 @@ class LinkedList<T> {
       current = current?.next ?? null;
     }
     return current;
+  }
+  peek() {
+    return this.head?.value
   }
 
   // 1.append在链表尾部增加元素
@@ -104,6 +109,7 @@ class LinkedList<T> {
       prevNode!.next = prevNode!.next!.next;
       return true;
     }
+    this.size--
     return false;
   }
   // 8.update
@@ -112,6 +118,11 @@ class LinkedList<T> {
     const currentNode = this.getNode(position);
     currentNode!.value = value;
     return true;
+  }
+  // 9.isEmpty
+  isEmpty():boolean {
+    if(this.size === 0 ) return true
+    return false
   }
 }
 

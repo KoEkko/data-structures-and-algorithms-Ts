@@ -1,5 +1,4 @@
 import { IList } from "../Types/IList";
-import { Node } from "./LinkedLists";
 
 export interface ILinkedLists<T> extends IList<T> {
   update(value:T,position:number):boolean

@@ -1,6 +1,6 @@
 import { ILinkedLists } from "./ILinkedLists";
 
-export class Node<T> {
+class Node<T> {
   value: T;
   next: Node<T> | null = null;
   constructor(value: T) {

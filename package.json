@@ -1,0 +1,23 @@
+{
+  "name": "data-structures-and-algorithms-ts",
+  "version": "1.0.0",
+  "description": "用Ts实现基础的数据结构与算法",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KoEkko/data-structures-and-algorithms-Ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KoEkko/data-structures-and-algorithms-Ts/issues"
+  },
+  "homepage": "https://github.com/KoEkko/data-structures-and-algorithms-Ts#readme",
+  "dependencies": {
+    "hy-algokit": "^1.4.0"
+  }
+}

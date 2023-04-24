@@ -9,9 +9,10 @@ class Node<T> {
 }
 
 class LinkedList<T> implements ILinkedLists<T>{
-  private size = 0;
-  private head: Node<T> | null = null;
+  protected size = 0;
+  protected head: Node<T> | null = null;
 
+  protected tail: Node<T> | null = null
   // 私有方法
   getNode(position: number): Node<T> | null {
     let index = 0;
@@ -32,12 +33,9 @@ class LinkedList<T> implements ILinkedLists<T>{
     if (!this.head) {
       this.head = newNode;
     } else {
-      let current = this.head;
-      while (current.next) {
-        current = current.next;
-      }
-      current.next = newNode;
+      this.tail!.next = newNode
     }
+    this.tail = newNode
     this.size++;
   }
 
@@ -63,6 +61,9 @@ class LinkedList<T> implements ILinkedLists<T>{
       const prevNode = this.getNode(position - 1);
       newNode.next = prevNode!.next;
       prevNode!.next = newNode;
+      if(position === this.size) {
+        this.tail = newNode
+      }
     }
     this.size++;
     return true;
@@ -71,10 +72,14 @@ class LinkedList<T> implements ILinkedLists<T>{
   removeAt(position: number): boolean {
     if (position < 0 || position >= this.size) return false;
     if (position === 0) {
-      this.head = this.head!.next;
+      this.head = this.head?.next ?? null ;
+      if(this.size === 1) this.tail = null
     } else {
       const prevNode = this.getNode(position - 1);
       prevNode!.next = prevNode!.next!.next;
+      if(position === this.size - 1) {
+        this.tail = prevNode
+      }
     }
     this.size--;
     return true;

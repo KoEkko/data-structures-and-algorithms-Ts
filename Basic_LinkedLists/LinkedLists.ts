@@ -8,7 +8,7 @@ class Node<T> {
   }
 }
 
-class LinkedList<T> implements ILinkedLists<T>{
+export default class LinkedList<T> implements ILinkedLists<T>{
   protected size = 0;
   protected head: Node<T> | null = null;
 
@@ -50,7 +50,15 @@ class LinkedList<T> implements ILinkedLists<T>{
     let current = this.head;
     while (current) {
       values.push(current.value);
-      current = current.next;
+      if(this.isTail(current)) {
+        current = null
+      } else {
+        current = current.next
+      }
+    }
+    // 循环链表
+    if(this.head && this.tail?.next === this.head) {
+      values.push(this.head.value)
     }
     console.log(values.join("-> "));
   }
@@ -75,7 +83,10 @@ class LinkedList<T> implements ILinkedLists<T>{
   }
   // 4.removeAt
   removeAt(position: number): boolean {
-    if (position < 0 || position >= this.size) return false;
+    if (position < 0 || position >= this.size) {
+      console.warn(`要删除的位置${position}超出了链表的长度,删除失败~`)
+      return false
+    };
     if (position === 0) {
       this.head = this.head?.next ?? null ;
       if(this.size === 1) this.tail = null
@@ -104,8 +115,12 @@ class LinkedList<T> implements ILinkedLists<T>{
       if (current.value === value) {
         return index;
       }
+      if(this.isTail(current)) {
+        current = null
+      } else {
+        current = current.next
+      }
       index++;
-      current = current.next;
     }
     return -1;
   }
@@ -139,32 +154,32 @@ class LinkedList<T> implements ILinkedLists<T>{
 const linkedlist = new LinkedList<string>();
 
 // test append
-linkedlist.append("aaa");
-linkedlist.append("bbb");
-linkedlist.append("ccc");
-linkedlist.traverse();
+// linkedlist.append("aaa");
+// linkedlist.append("bbb");
+// linkedlist.append("ccc");
+// linkedlist.traverse();
 
-// test insert
-linkedlist.insert("ddd", 0);
-linkedlist.insert("eee", 2);
-linkedlist.insert("fff", 3);
-linkedlist.traverse();
+// // test insert
+// linkedlist.insert("ddd", 0);
+// linkedlist.insert("eee", 2);
+// linkedlist.insert("fff", 3);
+// linkedlist.traverse();
 
-// test removeAt
-linkedlist.removeAt(0);
-linkedlist.removeAt(2);
+// // test removeAt
+// linkedlist.removeAt(0);
+// linkedlist.removeAt(2);
 
-linkedlist.traverse();
+// linkedlist.traverse();
 
-// test get
-console.log(linkedlist.get(0));
+// // test get
+// console.log(linkedlist.get(0));
 
-// test remove
-linkedlist.remove("aaa");
-linkedlist.traverse();
+// // test remove
+// linkedlist.remove("aaa");
+// linkedlist.traverse();
 
-// test update
-linkedlist.update("abc", 0);
-linkedlist.traverse();
+// // test update
+// linkedlist.update("abc", 0);
+// linkedlist.traverse();
 
 export {};

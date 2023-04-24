@@ -14,7 +14,7 @@ class LinkedList<T> implements ILinkedLists<T>{
 
   protected tail: Node<T> | null = null
   // 私有方法
-  getNode(position: number): Node<T> | null {
+  private getNode(position: number): Node<T> | null {
     let index = 0;
     let current = this.head;
     while (index++ < position) {
@@ -22,6 +22,11 @@ class LinkedList<T> implements ILinkedLists<T>{
     }
     return current;
   }
+
+  private isTail(node:Node<T>) {
+    return this.tail === node
+  }
+  
   peek() {
     return this.head?.value
   }

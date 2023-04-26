@@ -1,7 +1,7 @@
 import { IQueue } from "./IQueue";
 
 export class ArrayQueue<T> implements IQueue<T>{
-  private data: T[] = []
+  protected data: T[] = []
   dequeue(): T | undefined {
     return this.data.shift()
   }

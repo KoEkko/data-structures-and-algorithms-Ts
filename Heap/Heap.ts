@@ -2,7 +2,9 @@ class Heap<T> {
   // 属性
   data: T[] = [];
   private length: number = 0;
-
+  constructor(arr:T[]) {
+    this.buildHeap(arr)
+  }
   // 私有工具方法
   private swap(i: number, j: number) {
     const temp = this.data[i];
@@ -47,13 +49,13 @@ class Heap<T> {
     this.length--;
 
     // 开始下滤操作：维护最大堆的特性
-    this.hepify_down()
+    this.heapify_down(0)
     return topValue;
   }
 
-  private hepify_down() {
+  private heapify_down(start:number) {
     //
-    let index = 0;
+    let index = start;
     // 有左子节点的情况才继续循环
     while (2 * index + 1 < this.length) {
       let leftChildIndex = 2 * index + 1;
@@ -73,6 +75,7 @@ class Heap<T> {
       index = largerIndex;
     }
   }
+
   peek(): T | undefined {
     return this.data[0];
   }
@@ -85,17 +88,20 @@ class Heap<T> {
     return this.length === 0;
   }
 
-  buildHeap(arr: T[]) {}
+  buildHeap(arr: T[]) {
+    this.data = arr
+    this.length = arr.length
+
+    // 自下而上的建堆
+    // 第一个非叶子节点
+    const start = Math.floor((this.length - 1 ) / 2 )
+    for(let i = start ; i >= 0 ; i --) {
+      this.heapify_down(i)
+    }
+  }
 }
 
-const arr = [19, 100, 36, 17, 3, 25, 1, 2, 7];
+const arr = [9,11,20,56,23,45];
 
-const heap = new Heap<number>();
-for (const i of arr) {
-  heap.insert(i);
-}
+const heap = new Heap<number>(arr);
 console.log(heap.data);
-heap.insert(133)
-console.log(heap.data);
-
-console.log(heap.extract());

@@ -1,8 +1,9 @@
-class Heap<T> {
+export default class Heap<T> {
   // 属性
   data: T[] = [];
   private length: number = 0;
   constructor(arr:T[]) {
+    if(arr.length === 0) return 
     this.buildHeap(arr)
   }
   // 私有工具方法
@@ -101,7 +102,3 @@ class Heap<T> {
   }
 }
 
-const arr = [9,11,20,56,23,45];
-
-const heap = new Heap<number>(arr);
-console.log(heap.data);

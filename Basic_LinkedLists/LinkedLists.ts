@@ -14,11 +14,11 @@ export default class LinkedList<T> implements ILinkedLists<T>{
 
   protected tail: Node<T> | null = null
   // 私有方法
-  private getNode(position: number): Node<T> | null {
+  protected getNode(position: number): Node<T> | null {
     let index = 0;
     let current = this.head;
-    while (index++ < position) {
-      current = current?.next ?? null;
+    while (index++ < position && current) {
+      current = current?.next ;
     }
     return current;
   }

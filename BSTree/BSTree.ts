@@ -1,8 +1,8 @@
 import { ITree } from "../Types/ITree";
 
-import { btPrint } from "hy-algokit";
+// import { btPrint } from "hy-algokit";
 
-class TreeNode<T> extends ITree<T> {
+export class TreeNode<T> extends ITree<T> {
   left: TreeNode<T> | null = null;
   right: TreeNode<T> | null = null;
 
@@ -17,8 +17,8 @@ class TreeNode<T> extends ITree<T> {
   }
 }
 
-class BSTree<T> {
-  private root: TreeNode<T> | null = null;
+export class BSTree<T> {
+  protected root: TreeNode<T> | null = null;
 
   private insertNode(nextNode: TreeNode<T>, newNode: TreeNode<T>) {
     const newNodeValue = newNode.value; // 要插入节点的值
@@ -41,7 +41,7 @@ class BSTree<T> {
   }
 
   print() {
-    btPrint(this.root);
+    // btPrint(this.root);
   }
 
   // insert

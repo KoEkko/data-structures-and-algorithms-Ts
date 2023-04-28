@@ -1,6 +1,6 @@
 import { ITree } from "../Types/ITree";
 
-// import { btPrint } from "hy-algokit";
+import { btPrint } from "hy-algokit";
 
 export class TreeNode<T> extends ITree<T> {
   left: TreeNode<T> | null = null;
@@ -26,6 +26,7 @@ export class BSTree<T> {
     if (newNodeValue < nextNodeValue) {
       if (nextNode.left === null) {
         nextNode.left = newNode;
+        newNode.parent = nextNode
       } else {
         this.insertNode(nextNode.left!, newNode);
       }
@@ -33,6 +34,7 @@ export class BSTree<T> {
       if (newNodeValue > nextNodeValue) {
         if (nextNode.right === null) {
           nextNode.right = newNode;
+          newNode.parent = nextNode
         } else {
           this.insertNode(nextNode.right!, newNode);
         }
@@ -41,18 +43,26 @@ export class BSTree<T> {
   }
 
   print() {
-    // btPrint(this.root);
+    btPrint(this.root);
   }
 
+  protected createNode(value:T):TreeNode<T> {
+    return new TreeNode(value)
+  }
+  
+  protected checkBalance(node:TreeNode<T>, isAdd = true) {}
   // insert
   insert(value: T) {
-    const newNode = new TreeNode<T>(value);
+    const newNode = this.createNode(value);
 
     if (!this.root) {
       this.root = newNode;
     } else {
       this.insertNode(this.root, newNode);
     }
+
+    // 检测树是否平衡
+    this.checkBalance(newNode)
   }
 
   // 先序遍历
@@ -163,6 +173,8 @@ export class BSTree<T> {
 
     // 取代的节点
     let replaceNode: TreeNode<T> | null = null
+    let delNode: TreeNode<T> | null = null
+    delNode = current
     // 如果删除的是叶子节点
     if(current.left === null && current.right === null) {
       replaceNode = null 
@@ -182,7 +194,10 @@ export class BSTree<T> {
     else {
       // 找到后继节点
       const successor = this.getSuccessor(current)
-      replaceNode = successor
+      current.value = successor!.value
+      delNode = successor
+      this.checkBalance(delNode!,false)
+      return true
     }
 
     if(current === this.root) {
@@ -193,6 +208,12 @@ export class BSTree<T> {
       current.parent!.right = replaceNode
     }
 
+    // 判断replaceNode
+    if(replaceNode && current.parent) {
+      replaceNode.parent = current.parent
+    }
+    // 检测平衡
+    this.checkBalance(delNode!, false)
     return true;
   }
   private getSuccessor(delNode:TreeNode<T>):TreeNode<T> | null {
@@ -212,39 +233,48 @@ export class BSTree<T> {
     // 有一种情况，当后继节点刚好是删除节点的右节点,就不用执行以下的操作
     if(successor !== delNode.right) {
       successor!.parent!.left =  successor!.right 
-      successor!.right = delNode.right
+      if(successor?.right) {
+        successor.right.parent = successor.parent
+      }
+    } else {
+      delNode.right = successor!.right
+      if(successor!.right) {
+        successor!.right!.parent = delNode
+      }
     }
+
     // 后继节点的左子树一定为空
-    successor!.left = delNode.left
+    // successor!.left = delNode.left
+    
     return successor
   }
   
 }
 
-const bst = new BSTree<number>();
-bst.insert(10);
-bst.insert(20);
-bst.insert(7);
-bst.insert(5);
-bst.insert(11);
-bst.insert(8);
-bst.insert(22);
+// const bst = new BSTree<number>();
+// bst.insert(10);
+// bst.insert(20);
+// bst.insert(7);
+// bst.insert(5);
+// bst.insert(11);
+// bst.insert(8);
+// bst.insert(22);
 
-// bst.preOrderTraverse()
+// // bst.preOrderTraverse()
 
-// bst.inOrderTraverse()
+// // bst.inOrderTraverse()
 
-// bst.postOrderTraverse()
-// bst.levelOrderTraverse()
+// // bst.postOrderTraverse()
+// // bst.levelOrderTraverse()
 
-// console.log(bst.getMaxValue());
-// console.log(bst.getMinValue());
+// // console.log(bst.getMaxValue());
+// // console.log(bst.getMinValue());
 
-// console.log(bst.search(20));
-// console.log(bst.search(8));
-// console.log(bst.search(6));
+// // console.log(bst.search(20));
+// // console.log(bst.search(8));
+// // console.log(bst.search(6));
 
-bst.remove(20)
-bst.print();
+// bst.remove(20)
+// // bst.print();
 
 export {};

@@ -2,9 +2,9 @@ export default class Heap<T> {
   // 属性
   data: T[] = [];
   private length: number = 0;
-  constructor(arr:T[]) {
-    if(arr.length === 0) return 
-    this.buildHeap(arr)
+  constructor(arr: T[]) {
+    if (arr.length === 0) return;
+    this.buildHeap(arr);
   }
   // 私有工具方法
   private swap(i: number, j: number) {
@@ -50,11 +50,11 @@ export default class Heap<T> {
     this.length--;
 
     // 开始下滤操作：维护最大堆的特性
-    this.heapify_down(0)
+    this.heapify_down(0);
     return topValue;
   }
 
-  private heapify_down(start:number) {
+  private heapify_down(start: number) {
     //
     let index = start;
     // 有左子节点的情况才继续循环
@@ -90,15 +90,14 @@ export default class Heap<T> {
   }
 
   buildHeap(arr: T[]) {
-    this.data = arr
-    this.length = arr.length
+    this.data = arr;
+    this.length = arr.length;
 
     // 自下而上的建堆
     // 第一个非叶子节点
-    const start = Math.floor((this.length - 1 ) / 2 )
-    for(let i = start ; i >= 0 ; i --) {
-      this.heapify_down(i)
+    const start = Math.floor(this.length / 2 - 1);
+    for (let i = start; i >= 0; i--) {
+      this.heapify_down(i);
     }
   }
 }
-
